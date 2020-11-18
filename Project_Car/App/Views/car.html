@@ -1,0 +1,89 @@
+﻿<div class="row">
+    <div class="col-12">
+        <div class="alert alert-warning" ng-if="dataFetchError">
+            <button type="button" class="close" data-dismiss="alert" aria-label="Close">
+                <span aria-hidden="true">&times;</span>
+            </button>
+            <p><strong>Error</strong> resons: {{dataFetchError}}</p>
+        </div>
+    </div>
+</div>
+<div class="card">
+    <div class="card-header">
+        <div class="row">
+            <div class="col-4"><h3 class="card-title">Car List</h3></div>
+            <div class="col text-right mt-1"><a class="btn btn-primary btn-sm" ng-href="#!/createCar">Add <i class="fa fa-external-link"></i></a></div>
+        </div>
+    </div>
+    <div class="card-body">
+        <div class="card-text">
+            <table class="table table-bordered">
+                <thead class="bg-success">
+                    <tr>
+                        <th></th>
+                        <th>Car Model</th>
+                        <th>Car Type</th>
+                        <th>Price</th>
+                        <th>Lunch Date</th>
+                        <th>Is Available?</th>
+                        <th></th>
+                    </tr>
+                </thead>
+                <tbody ng-repeat="data in model.cars">
+                    <tr>
+                        <td>
+                            <button ng-if="!data.isExpanded" class="btn" ng-click="expandChild($index)"><i class="fa fa-plus"></i></button>
+                            <button ng-if="data.isExpanded" class="btn" ng-click="expandChild($index)"><i class="fa fa-minus"></i></button>
+                        </td>
+                        <td>{{data.car.CarModel}}</td>
+                        <td>{{data.car.Type}}</td>
+                        <td>{{data.car.Price |currency}}</td>
+                        <td>{{data.car.LunchDate| date :  "dd-MMM-yyyy"}}</td>
+                        <td>{{data.car.IsAvailable? 'Yes':'No'}}</td>
+                        <td style="width:150px;">
+                            <a class="btn btn-primary btn-sm" href="#!/editCar/{{data.car.CarId}}">Edit <i class="fa fa-external-link"></i></a>
+                            <button class="btn btn-warning btn-sm" ng-click="deleteCar($index)">Del <i class="fa fa-external-link"></i></button>
+                        </td>
+                    </tr>
+                    <tr ng-if="data.isExpanded">
+                        <td></td>
+                        <td colspan="5">
+                            <table class="table table-primary">
+                                <thead>
+                                    <tr>
+                                        <th>Parts Name</th>
+                                        <th>Stock</th>
+                                        <th>Price</th>
+                                        <th>
+                                            <a class="btn btn-outline-success btn-sm" ng-href="#!/createParts"><i class="fa fa-plus"></i></a>
+                                        </th>
+                                    </tr>
+                                </thead>
+                                <tbody>
+                                    <tr ng-repeat="parts in data.car.CarParts">
+                                        <td>{{parts.PartsName}}</td>
+                                        <td>{{parts.Stock}}</td>
+                                        <td>{{parts.Price | currency}}</td>
+                                        <td>
+                                            <a class="btn btn-outline-success btn-sm" ng-href="#!/editParts/{{parts.CarPartsId}}"><i class="fa fa-pencil"></i></a>
+                                            <a class="btn btn-outline-danger btn-sm" ng-click="deleteParts(parts.CarId,parts.CarPartsId,$index)"><i class="fa fa-trash"></i></a>
+                                        </td>
+                                    </tr>
+                                </tbody>
+                            </table>
+                        </td>
+                    </tr>
+                </tbody>
+            </table>
+        </div>
+    </div>
+    <div class="card-footer">
+        
+    </div>
+</div>
+
+
+
+
+
+

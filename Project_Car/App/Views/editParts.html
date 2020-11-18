@@ -1,0 +1,91 @@
+﻿<div ng-controller="editPartsCtrl">
+    <div class="card">
+        <div class="card-header">Edit Parts</div>
+        <div class="card-body">
+            <div ng-show="updatePartsMsg" class="alert alert-info alert-dismissible fade show" role="alert">
+                <strong>Success!</strong> Data inserted.
+                <button type="button" class="close" data-dismiss="alert" aria-label="Close">
+                    <span aria-hidden="true">&times;</span>
+                </button>
+            </div>
+            <div class="card-text">
+                <form name="frmEditCarParts" id="frmEditCarParts"
+                      ng-submit="partsEditDone(frmEditCarParts)" novalidate>
+                    <table class="table table-bordered">
+                        <thead class="bg-success">
+                            <tr>
+                                <th>Car</th>
+                                <th>Parts Name</th>
+                                <th>Stock</th>
+                                <th>Price</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            <tr>
+                                <td>
+                                    <select name="carId" ng-options="item.car.CarId as item.car.CarModel for item in model.cars" class="form-control form-control-sm"
+                                            ng-model="currentParts.CarId" required>
+                                        <option value="">Select</option>
+                                    </select>
+                                    <div class="text-danger" ng-show="frmEditCarParts.carId.$error" ng-if="!frmEditCarParts.carId.$pristine">
+                                        <div ng-show="frmEditCarParts.carId.$error.required">Car required.</div>
+                                    </div>
+                                </td>
+                                <td>
+                                    <textarea name="partsName"
+                                              class="form-control form-control-sm"
+                                              ng-model="currentParts.PartsName"
+                                              required></textarea>
+                                    <div ng-messages="frmEditCarParts.partsName.$error"
+                                         ng-show="frmEditCarParts.partsName.$invalid && !frmEditCarParts.partsName.$pristine">
+                                        <div class="text-danger" ng-message="required">
+                                            Parts name Name is required.
+                                        </div>
+                                    </div>
+                                </td>
+                                <td>
+                                    <textarea name="stock"
+                                              type="number"
+                                              class="form-control form-control-sm"
+                                              ng-model="currentParts.Stock"
+                                              required></textarea>
+                                    <div ng-messages="frmEditCarParts.stock.$error"
+                                         ng-show="frmEditCarParts.stock.$invalid && !frmEditCarParts.stock.$pristine">
+                                        <div class="text-danger" ng-message="required">
+                                            Stock is required.
+                                        </div>
+                                    </div>
+                                </td>
+                                <td>
+                                    <textarea name="price"
+                                              type="number"
+                                              class="form-control form-control-sm"
+                                              ng-model="currentParts.Price"
+                                              required></textarea>
+                                    <div ng-messages="frmEditCarParts.price.$error"
+                                         ng-show="frmEditCarParts.price.$invalid && !frmEditCarParts.price.$pristine">
+                                        <div class="text-danger" ng-message="required">
+                                            Price is required.
+                                        </div>
+                                    </div>
+                                </td>
+                            </tr>
+                        </tbody>
+                    </table>
+                </form>
+            </div>
+        </div>
+        <div class="card-footer">
+            <div class="d-flex">
+                <a class="btn-link" href="#!/car"><i class="fa fa-reply"></i> Back to car list</a>
+                <span style="flex: auto">&nbsp;</span>
+                <button type="submit"
+                        form="frmEditCarParts"
+                        class="btn btn-primary btn-sm"
+                        ng-disabled="frmEditCarParts.$invalid">
+                    Update <i class="fa fa-retweet" aria-hidden="true"></i>
+                </button>
+            </div>
+        </div>
+    </div>
+</div>

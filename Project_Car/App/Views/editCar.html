@@ -1,0 +1,247 @@
+﻿<div ng-controller="editCarAtrl">
+    <div ng-show="carEditMsg" class="alert alert-info alert-dismissible fade show" role="alert">
+        <strong>Success!</strong> Data updated.
+        <button type="button" class="close" data-dismiss="alert" aria-label="Close">
+            <span aria-hidden="true">&times;</span>
+        </button>
+    </div>
+    <div class="card">
+        <div class="card-header"> <h4 class="card-subtitle">Edit Car</h4></div>
+        <div class="card-body">
+            <div class="card-text">
+                <form name="frmEditCar" id="frmEditCar" ng-submit="editDone(frmEditCar)" novalidate>
+                    <div class="form-group row">
+                        <label for="" class="col-form-label col-form-label-sm col-2 text-right">Car Type</label>
+                        <div class="col-4">
+                            <select name="type"
+                                    class="form-control form-control-sm"
+                                    ng-model="carToEdit.Type"
+                                    required>
+                                <option value="">Select</option>
+                                <option value="Pickup">Pickup</option>
+                                <option value="Van">Van</option>
+                                <option value="Minivan">Minivan</option>
+                                <option value="Truck">Truck</option>
+                                <option value="Minitruck">Minitruck</option>
+                                <option value="Bigtruck">Bigtruck</option>
+                                <option value="Coupe">Coupe</option>
+                                <option value="Micro">Micro</option>
+                                <option value="Sedan">Sedan</option>
+                                <option value="Sub">Sub</option>
+                                <option value="Supercar">Supercar</option>
+                                <option value="Roadster">Roadster</option>
+                            </select>
+                            <div ng-messages="frmEditCar.type.$error"
+                                 ng-show="frmEditCar.type.$invalid && !frmEditCar.type.$pristine">
+                                <div class="text-danger" ng-message="required">
+                                    Car type is requred.
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="form-group row">
+                        <label for="" class="col-form-label col-form-label-sm col-2 text-right">Car Model</label>
+                        <div class="col-4">
+                            <input name="carModel"
+                                   ng-model="carToEdit.CarModel"
+                                   class="form-control form-control-sm"
+                                   required />
+                            <div ng-messages="frmEditCar.carModel.$error"
+                                 ng-show="frmEditCar.carModel.$invalid && !frmEditCar.carModel.$pristine">
+                                <div class="text-danger" ng-message="required">
+                                    Car model is requred.
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="form-group row">
+                        <label for="" class="col-form-label col-form-label-sm col-2 text-right">Price</label>
+                        <div class="col-4">
+                            <input name="price"
+                                   class="form-control form-control-sm"
+                                   type="number"
+                                   ng-model="carToEdit.Price"
+                                   required />
+                            <div ng-messages="frmEditCar.MonthlySalary.$error"
+                                 ng-show="frmEditCar.price.$invalid && !frmEditCar.price.$pristine">
+                                <div class="text-danger" ng-message="required">
+                                    Price is requred.
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="form-group row">
+                        <label for="" class="col-form-label col-form-label-sm col-2 text-right">Lunch Date</label>
+                        <div class="col-4">
+                            <!--<div class="input-group">
+                                <input name="lunchDate"
+                                       ng-model="carToEdit.LunchDate"
+                                       class="form-control form-control-sm"
+                                       type="date" required />
+                            </div>-->
+                            <div class="input-group">
+                                        <input name="lunchDate"
+                                               ng-model="carToEdit.LunchDate"
+                                               class="form-control form-control-sm"
+                                               required
+                                               uib-datepicker-popup="yyyy-MM-dd"
+                                               is-open="popup2.opened"
+                                               close-text="Close" />
+                                        <span class="input-group-btn">
+                                            <button type="button"
+                                                    class="btn btn-secondary btn-sm"
+                                                    ng-click="open2()">
+                                                <i class="fa fa-calendar"></i>
+                                            </button>
+                                        </span>
+                                    </div>
+                            <div ng-messages="frmEditCar.lunchDate.$error"
+                                 ng-show="frmEditCar.lunchDate.$invalid && !frmEditCar.lunchDate.$pristine">
+                                <div class="text-danger" ng-message="required">
+                                    Lunch Date is requred.
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="form-group row">
+                        <label for="" class="col-form-label col-form-label-sm col-2 text-right">Is Available ?</label>
+                        <div class="col-4 mt-2">
+                            <div class="input-group">
+                                <input type="checkbox" name="isAvailable"
+                                       ng-model="carToEdit.IsAvailable" />
+                            </div>
+                        </div>
+                    </div>
+                    <h4 class="card-subtitle">Edit Car Parts</h4>
+                    <table class="table table-bordered">
+                        <thead>
+                            <tr>
+                                <th>Parts Name</th>
+                                <th>Stock</th>
+                                <th>Price</th>
+                                <th style="width:90px" class="text-center">
+                                    <button type="button" class="btn btn-success btn-sm" ng-click="openAddPartsDialog()"><span class="fa fa-plus"></span></button>
+                                </th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            <tr ng-repeat="item in carToEdit.CarParts">
+                                <td>
+                                    <textarea name="partsName[{{$index}}]"
+                                              class="form-control form-control-sm"
+                                              ng-model="item.PartsName"
+                                              required></textarea>
+                                    <div ng-messages="frmEditCar['PartsName[' + $index + ']'].$error"
+                                         ng-show="frmEditCar['PartsName[' + $index + ']'].$invalid && !frmEditCar['PartsName[' + $index + ']'].$pristine">
+                                        <div class="text-danger" ng-message="required">
+                                            Parts name is requred
+                                        </div>
+                                    </div>
+                                </td>
+                                <td>
+                                    <textarea name="stock[{{$index}}]"
+                                              type="number"
+                                              class="form-control form-control-sm"
+                                              ng-model="item.Stock"
+                                              required></textarea>
+                                    <div ng-messages="frmEditCar['stock[' + $index + ']'].$error"
+                                         ng-show="frmEditCar['stock[' + $index + ']'].$invalid && !frmEditCar['stock[' + $index + ']'].$pristine">
+                                        <div class="text-danger" ng-message="required">
+                                            Stock is requred
+                                        </div>
+                                    </div>
+                                </td>
+                                <td>
+                                    <textarea name="price[{{$index}}]"
+                                              class="form-control form-control-sm"
+                                              type="number"
+                                              ng-model="item.Price"
+                                              required></textarea>
+                                    <div ng-messages="frmEditCar['price[' + $index + ']'].$error"
+                                         ng-show="frmEditCar['price[' + $index + ']'].$invalid && !frmEditCar['price[' + $index + ']'].$pristine">
+                                        <div class="text-danger" ng-message="required">
+                                            Monthly salary is requred
+                                        </div>
+                                    </div>
+                                </td>
+                                <td class="text-center">
+                                    <button type="button" ng-click="delCarParts($index)" class="btn btn-danger btn-sm mt-2"><i class="fa fa-trash"></i></button>
+                                </td>
+                            </tr>
+                        </tbody>
+                    </table>
+                </form>
+            </div>
+        </div>
+        <div class="card-footer">
+            <div class="d-flex align-items-baseline">
+                <a ng-href="#!/car"><i class="fa fa-reply" aria-hidden="true"></i> Back to car list</a>
+                <span style="flex:auto"></span>
+                <button type="submit" class="btn btn-success btn-sm" ng-disabled="frmEditCar.$invalid" form="frmEditCar">Update <i class="fa fa-retweet" aria-hidden="true"></i></button>
+            </div>
+        </div>
+    </div>
+
+    <!-- Permanent Modal -->
+    <div class="modal fade" id="addPartsModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
+        <div class="modal-dialog" role="document">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h5 class="modal-title" id="exampleModalLabel">Add new parts</h5>
+                    <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                        <span aria-hidden="true">&times;</span>
+                    </button>
+                </div>
+                <div class="modal-body">
+                    <form name="frmPartModal" id="frmPartModal" ng-submit="AddPartsModal(frmPartModal)" novalidate>
+
+                        <div class="form-group">
+                            <label class="col-form-label col-form-label-sm">Parts Name</label>
+                            <input name="partsName"
+                                   class="form-control form-control-sm"
+                                   ng-model="newPartsModal.PartsName"
+                                   required />
+                            <div ng-messages="frmPartModal.partsName.$error"
+                                 ng-show="frmPartModal.partsName.$invalid && !frmPartModal.partsName.$pristine">
+                                <div class="text-danger" ng-message="required">
+                                    Parts name is requred
+                                </div>
+                            </div>
+                        </div>
+                        <div class="form-group">
+                            <label class="col-form-label col-form-label-sm">Stock</label>
+                            <input name="stock"
+                                   ng-model="newPartsModal.Stock"
+                                   class="form-control form-control-sm"
+                                   type="number" required />
+                            <div ng-messages="frmPartModal.stock.$error"
+                                 ng-show="frmPartModal.stock.$invalid && !frmPartModal.stock.$pristine">
+                                <div class="text-danger" ng-message="required">
+                                    Stock is required.
+                                </div>
+                            </div>
+                        </div>
+                        <div class="form-group">
+                            <label class="col-form-label col-form-label-sm">Monthly Salary</label>
+                            <input name="price"
+                                   class="form-control form-control-sm"
+                                   type="number"
+                                   ng-model="newPartsModal.Price"
+                                   required />
+                            <div ng-messages="frmPartModal.price.$error"
+                                 ng-show="frmPartModal.price.$invalid && !frmPartModal.price.$pristine">
+                                <div class="text-danger" ng-message="required">
+                                    Salary is requred.
+                                </div>
+                            </div>
+                        </div>
+                    </form>
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-secondary btn-sm" data-dismiss="modal"><i class="fa fa-close"></i></button>
+                    <button type="submit" class="btn btn-success btn-sm" form="frmPartModal" ng-disabled="frmPartModal.$invalid"><i class="fa fa-plus"></i></button>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>

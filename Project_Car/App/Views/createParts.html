@@ -1,0 +1,84 @@
+﻿<div ng-controller="createPartsCtrl">
+
+    <div class="alert alert-light">Add new parts</div>
+    <div ng-show="newPartsMsg" class="alert alert-info alert-dismissible fade show" role="alert">
+        <strong>Success!</strong> Data inserted.
+        <button type="button" class="close" data-dismiss="alert" aria-label="Close">
+            <span aria-hidden="true">&times;</span>
+        </button>
+    </div>
+    <form name="frmCarPertsSingle" id="frmCarPertsSingle"
+          ng-submit="pertsCreateDone(frmCarPertsSingle)"
+          novalidate>
+        <div class="form-group row">
+            <label class="col-form-label col-form-label-sm col-2 text-right">Car</label>
+            <div class="col-4">
+                <select name="carId" ng-options="item.car.CarId as item.car.CarModel for item in model.cars" class="form-control form-control-sm" ng-model="currentPartsSingle.CarId" required>
+                    <option value="">Select</option>
+                </select>
+                <div class="text-danger" ng-show="frmCarPertsSingle.carId.$error" ng-if="!frmCarPertsSingle.carId.$pristine">
+                    <div ng-show="frmCarPertsSingle.carId.$error.required">Car required.</div>
+                </div>
+            </div>
+        </div>
+        <div class="form-group row">
+            <label class="col-form-label col-form-label-sm col-2 text-right">Parts Name</label>
+            <div class="col-4">
+                <input name="partsName"
+                       class="form-control form-control-sm"
+                       ng-model="currentPartsSingle.PartsName"
+                       required />
+                <div ng-messages="frmCarPertsSingle.partsName.$error"
+                     ng-show="frmCarPertsSingle.partsName.$invalid && !frmCarPertsSingle.partsName.$pristine">
+                    <div class="text-danger" ng-message="required">
+                        Parts name Name is required.
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div class="form-group row">
+            <label for="" class="col-form-label col-form-label-sm col-2 text-right">Stock</label>
+            <div class="col-4">
+                <input name="stock"
+                       type="number"
+                       class="form-control form-control-sm"
+                       ng-model="currentPartsSingle.Stock"
+                       required />
+                <div ng-messages="frmCarPertsSingle.stock.$error"
+                     ng-show="frmCarPertsSingle.stock.$invalid && !frmCarPertsSingle.stock.$pristine">
+                    <div class="text-danger" ng-message="required">
+                        Stock is required.
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div class="form-group row">
+            <label for="" class="col-form-label col-form-label-sm col-2 text-right">Price</label>
+            <div class="col-4">
+                <input name="price"
+                       type="number"
+                       class="form-control form-control-sm"
+                       ng-model="currentPartsSingle.Price"
+                       required />
+                <div ng-messages="frmCarPertsSingle.price.$error"
+                     ng-show="frmCarPertsSingle.price.$invalid && !frmCarPertsSingle.price.$pristine">
+                    <div class="text-danger" ng-message="required">
+                        Price is required.
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div class="form-group row">
+            <div class="col-2 text-left offset-3">
+                <a class="btn-link" href="#!/car"><i class="fa fa-reply"></i> Back to car list</a>
+            </div>
+            <div class="col-2">
+                <button type="submit"
+                        class="btn btn-primary btn-sm"
+                        ng-disabled="frmCarPertsSingle.$invalid">
+                    <i class="fa fa-save"> Save</i>
+                </button>
+            </div>
+        </div>
+    </form>
+</div>

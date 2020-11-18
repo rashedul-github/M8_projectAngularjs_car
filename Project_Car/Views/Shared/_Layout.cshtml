@@ -1,0 +1,255 @@
+﻿<!DOCTYPE html>
+<html ng-app="partsApp">
+<head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width" />
+    <title>@ViewBag.Title</title>
+    <link href="https://fonts.googleapis.com/css2?family=Roboto&display=swap" rel="stylesheet">
+    <link href="~/Content/bootstrap.css" rel="stylesheet" />
+    <link href="~/Content/font-awesome.css" rel="stylesheet" />
+    <script src="~/Scripts/umd/popper.js"></script>
+    <script src="~/Scripts/jquery-3.5.1.js"></script>
+    <style>
+        body {
+            padding-top: 70px;
+            background-color: #fbecec;
+            font-family: 'Roboto',Segoe UI, Tahoma, Geneva, Verdana, sans-serif;
+        }
+    </style>
+</head>
+<body ng-controller="outerCtrl">
+    <div class="navbar navbar-dark bg-success navbar-expand-md fixed-top border-bottom">
+        <div class="container">
+            <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
+                <span class="navbar-toggler-icon"></span>
+            </button>
+            <a href='@Url.Action("Index","Home")' class="navbar-brand">ABC Car Parts Ltd.</a>
+            <div class="navbar-collapse collapse" id="navbarSupportedContent">
+                <ul class="nav navbar-nav">
+                    <li class="nav-item active"><a class="nav-link" ng-href="#!/home">Home</a></li>
+                </ul>
+                <ul class="nav navbar-nav ml-auto">
+                    <li class="nav-item dropdown">
+                        <a class="nav-link dropdown-toggle" href="#" id="navbarDropdown" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                            Expand me!
+                        </a>
+                        <div class="dropdown-menu" aria-labelledby="navbarDropdown">
+                            <a class="dropdown-item" ng-href="#!/car">Cars</a>
+                        </div>
+                    </li>
+                </ul>
+            </div>
+        </div>
+    </div>
+
+    <div class="container" style="min-height:440px;">
+        @RenderBody()
+    </div>
+    <footer class="container">
+        <div class="card border-light" style="background-color: #fbecec;">
+            <div class="card-body">
+                <div class="row">
+                    <div class="col-6">
+                        <p class="card-text">&copy;@DateTime.Now.Year, ABC Car Parts Ltd.
+                    </div>
+                    <div class="col-6 text-right">
+                        <p class="card-text"><i class="fa fa-hand-peace-o" aria-hidden="true"> Md Rashedul Islam</i></p>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </footer>
+
+
+    <div class="modal fade" tabindex="-1" role="dialog" id="delCarModal">
+        <div class="modal-dialog" role="document">
+            <div class="modal-content">
+                <div class="modal-header" style="background-color:#f6830f;">
+                    <h5 class="modal-title">Confirm Delete!</h5>
+                    <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                        <span aria-hidden="true">&times;</span>
+                    </button>
+                </div>
+                <div class="modal-body" style="background-color:#d2d3c9;">
+                    <div class="text-danger">This car and its all parts will be deleted?</div>
+                </div>
+                <div class="modal-footer" style="background-color:#f7dad9;">
+                    <button type="button" class="btn btn-secondary btn-sm" data-dismiss="modal"><i class="fa fa-window-close" aria-hidden="true"></i></button>
+                    <button type="button" class="btn btn-danger btn-sm" ng-click="doDeleteCar()"><i class="fa fa-trash" aria-hidden="true"> Delete</i></button>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <div class="modal fade" tabindex="-1" role="dialog" id="delPartsModal">
+        <div class="modal-dialog" role="document">
+            <div class="modal-content">
+                <div class="modal-header" style="background-color:#f6830f;">
+                    <h5 class="modal-title">Confirm Delete!</h5>
+                    <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                        <span aria-hidden="true">&times;</span>
+                    </button>
+                </div>
+                <div class="modal-body" style="background-color:#d2d3c9;">
+                    <div class="text-danger">This parts will be deleted?</div>
+                </div>
+                <div class="modal-footer" style="background-color:#f7dad9;">
+                    <button type="button" class="btn btn-secondary btn-sm" data-dismiss="modal"><i class="fa fa-window-close" aria-hidden="true"></i></button>
+                    <button type="button" class="btn btn-danger btn-sm" ng-click="doDeleteParts()"><i class="fa fa-trash" aria-hidden="true"> Delete</i></button>
+                </div>
+            </div>
+        </div>
+    </div>
+
+
+
+    <script src="~/Scripts/bootstrap.js"></script>
+    <script src="~/Scripts/angular.js"></script>
+    <script src="~/Scripts/angular-route.js"></script>
+    <script src="~/Scripts/angular-messages.js"></script>
+    <script src="~/Content/ui-bootstrap4/ui-bootstrap.js"></script>
+    <script src="~/Content/ui-bootstrap4/ui-bootstrap-tpls.js"></script>
+    <script src="~/Scripts/angular-sanitize.js"></script>
+    @RenderSection("scripts", required: false)
+    <script>
+        angular.module("partsApp", ["ui.bootstrap", 'ngRoute'])
+            .constant("apiUrl", "/api/")
+            .constant("customUrl", "/custom/")
+            .config(($routeProvider) => {
+                $routeProvider
+                    .when("/home", {
+                        templateUrl: "/App/Views/home.html"
+                    })
+                    .when("/car", {
+                        templateUrl: "/App/Views/car.html"
+                    })
+                    .when("/createCar", {
+                        templateUrl: "/App/Views/createCar.html"
+                    })
+                    .when("/editCar/:id", {
+                        templateUrl: "/App/Views/editCar.html"
+                    })
+                    .when("/createParts", {
+                        templateUrl: "/App/Views/createParts.html"
+                    })
+                    .when("/editParts/:id", {
+                        templateUrl: "/App/Views/editParts.html"
+                    })
+                    .otherwise({ redirectTo: '/home' });
+            })
+            .controller("outerCtrl", ($scope, ApiService, apiUrl, customUrl) => {
+                $scope.model = {};
+                $scope.dataFetchError = "";
+                //get all
+                ApiService.get(customUrl + "carList", null)
+                    .then(r => {
+                        $scope.model.cars = [];
+                        angular.forEach(r.data, (v, k) => {
+                            $scope.model.cars.push({ isExpanded: false, car: v });
+                        });
+                        //$scope.model.cars = r.data;
+                    }, err => {
+                        $scope.dataFetchError = err.message || err.statusText || "Unspecified reason.";
+                    });
+                //page & filter
+                $scope.expandChild = (index) => {
+                    //console.log(index);
+                    $scope.model.cars[index].isExpanded = !$scope.model.cars[index].isExpanded;
+                }
+                //event
+                $scope.$on('carInserted', (evt, data) => {
+                    $scope.model.cars.push({ isExpanded: false, car: data });
+                    //console.log($scope.model.depts);
+                });
+                $scope.$on('carUpdated', (evt, data) => {
+                    //console.log('updates');
+                    //console.log(data.CarId);
+
+                    angular.forEach($scope.model.cars, function (v, k) {
+                        if (v.car.CarId == data.CarId) {
+                            angular.copy(data, v.car);
+                            //console.log(car.CarId);
+                        }
+                    })
+
+                });
+                $scope.$on('partsInserted', (evt, data) => {
+                    //console.log('Event');
+                    angular.forEach($scope.model.cars, function (v, k) {
+                        if (v.car.CarId == data.CarId) {
+                            v.car.CarParts.push(data);
+                        }
+                    })
+                });
+                $scope.$on('partsUpdated', (evt, data) => {
+                    //console.log('Updated');
+                    angular.forEach($scope.model.cars, function (v, k) {
+                        if (v.car.CarId == data.CarId) {
+                            angular.forEach(v.car.CarParts, function (v1, k1) {
+                                if (v1.CarPartsId == data.CarPartsId) {
+                                    angular.copy(data, v1);
+                                    //console.log(v1);
+                                }
+                            });
+                        }
+                    })
+                })
+                //delete car
+                $scope.carToDelete = null;
+                $scope.deleteCar = (index) => {
+                    $scope.carToDelete = index;
+                    $("#delCarModal").modal('show');
+                }
+                $scope.doDeleteCar = () => {
+                    var cId = $scope.model.cars[$scope.carToDelete].car.CarId;
+                    //console.log(cId);
+                    ApiService.delete(apiUrl + "Cars/" + cId, null)
+                        .then(r => {
+                            $scope.model.cars.splice($scope.carToDelete, 1);
+                            $("#delCarModal").modal('hide');
+                        }, err => {
+                            console.log(err);
+                        });
+                }
+                //delete parts
+                $scope.partsToDelete = null;
+                $scope.carSource = null;
+                $scope.delIndex = null;
+                $scope.deleteParts = (carid, pid, index) => {
+                    console.log(carid);
+                    console.log(pid);
+
+                    $scope.partsToDelete = pid;
+                    $scope.carSource = carid;
+                    $scope.delIndex = index;
+                    //console.log($scope.carSource);
+                    $("#delPartsModal").modal('show');
+                }
+                $scope.doDeleteParts = () => {
+                    ApiService.delete(apiUrl + "CarParts/" + $scope.partsToDelete, null)
+                        .then(r => {
+                            angular.forEach($scope.model.cars, (v, k) => {
+
+                                if (v.car.CarId == $scope.carSource) {
+
+                                    v.car.CarParts.splice($scope.delIndex, 1);
+                                }
+                            })
+                            $scope.partsToDelete = null;
+                            $scope.carSource = null;
+                            $scope.delIndex = null;
+
+                            $("#delPartsModal").modal('hide');
+                        }, err => { })
+                }
+            });
+    </script>
+    <script src="~/App/Services/ApiService.js"></script>
+    <script src="~/App/Filters/filter.js"></script>
+    <script src="~/App/Controllers/createCarCtrl.js"></script>
+    <script src="~/App/Controllers/editCarAtrl.js"></script>
+    <script src="~/App/Controllers/createPartsCtrl.js"></script>
+    <script src="~/App/Controllers/editPartsCtrl.js"></script>
+
+</body>
+</html>
